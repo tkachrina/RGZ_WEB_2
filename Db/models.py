@@ -1,13 +1,11 @@
 from . import db
-#from flask_login import UserMixin
-
 
 
 class users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     username = db.Column(db.String(30), unique=True, nullable=False)
-    password = db.Column(db.String(300), nullable=False)
+    password = db.Column(db.String(500), nullable=False)
 
 
 class cinema_sessions(db.Model):
@@ -75,4 +73,3 @@ class cinema_sessions(db.Model):
     occupant_28 = db.Column(db.String(255), default=None)
     occupant_29 = db.Column(db.String(255), default=None)
     occupant_30 = db.Column(db.String(255), default=None)
-

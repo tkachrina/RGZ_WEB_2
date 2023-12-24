@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block main %}
+<br>
+<br>
+<form class="form_register" method="POST">
+    <h1>Создание нового сеанса</h1>
+
+    <div style="position: relative; left: -130px; height: 2vw;">
+        <input class='input_register' style='height: 3vw; left: 6px; position: relative;' type="text" name="movie" placeholder="Фильм" value="{{ movie or '' }}">
+    </div>
+    <br>
+    <div style="position: relative; left: -124px; height: 2vw;">
+        <input class='input_register' style='height: 3vw; left: 6px; position: relative;' type="text" name="room_number" placeholder="Номер зала" value="{{ room_number or '' }}">
+    </div>
+    <br>
+    <div style="position: relative; left: -118px; height: 2vw">
+        <input class='input_register' style='height: 3vw' type="text" name="date" placeholder="Дата (день-мес-год ч:м)" value="{{ date or '' }}">
+    </div>
+    <br>
+    <br>
+    <button class="button_register" type="submit">Создать</button>
+    <br>
+    <br>
+    
+{% if not (movie or room_number or time) and request.method == 'POST' %}
+<div>
+    <label>{{ errors[0] }}</label>
+    <br>
+</div>
+{% endif %}
+<br>
+<br>
+</form>
+<br>
+<br>
+{% endblock %}

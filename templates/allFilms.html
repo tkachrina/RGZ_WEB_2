@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h1>Афиша</h1>
+    {% for session in movie_sessions %}
+        <div><a href="{{ url_for('movie_sessions', movie=session[0])}}">{{ session[0] }}</a></div><br>
+        <!-- Добавьте другие поля по необходимости -->
+    {% endfor %}
+
+<!-- Вложенный цикл для информации о каждом фильме -->
+{% endblock %}

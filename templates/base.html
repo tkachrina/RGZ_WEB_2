@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block lab %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    {% block script %}{% endblock %}
+</head>
+<body>
+    <header>
+        WEB-программирование, часть 2. {{ self.lab() }}
+    </header>
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    <footer>
+        <a class="menu_bt" href="/app/index" target="_self">Главная</a>
+    </footer>
+</body>
+</html>

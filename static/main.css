@@ -1,0 +1,71 @@
+img {
+    width: 63%;
+    height: auto;
+    position: relative;
+    display: inline-block;
+}
+
+body {
+    background-color: black;
+    color: white;
+    font-size: 2vw;
+}
+
+div {
+    margin: 0 3% 0 3%;
+}
+
+header {
+    border-bottom: 5px white solid;
+    border-top: 5px white solid;
+    margin: -8px;
+    padding-left: 2%;
+    margin-top: 27px;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+
+ul {
+    text-align: left;
+}
+
+footer {
+    text-align: right;
+    border-top: 5px white solid;
+    border-bottom: 5px white solid;
+    margin: -8px;
+    padding-right: 2%;
+    position: relative;
+}
+
+button {
+    cursor: pointer;
+}
+
+.form_register {
+    text-align: center;
+    border: 8px white solid;
+    left: 27vw;
+    border-radius: 20px;
+    position: relative;
+    width: 42vw;
+    height: 36vw;
+}
+
+.movie {
+    position: relative;
+    display: block;
+    text-align: center;
+    border: purple 3px solid;
+    width: fit-content;
+    padding: 0.5vw 2vw 0.5vw 2vw;
+    left: 31vw;
+    border-radius: 16px;
+}

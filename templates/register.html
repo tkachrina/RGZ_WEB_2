@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<br>
+<form class="form_register" method="POST">
+    <h1>Страница регистрации</h1>
+
+    <div style="position: relative; left: -130px; height: 2vw;">
+        <input class='input_register' style='height: 3vw; left: 6px; position: relative;' type="text" name="name" placeholder="Никнейм" value="{{ name or '' }}">
+    </div>
+    <br>
+    <div style="position: relative; left: -124px; height: 2vw;">
+        <input class='input_register' style='height: 3vw; left: 6px; position: relative;' type="text" name="username" placeholder="Логин" value="{{ username or '' }}">
+    </div>
+    <br>
+    <div style="position: relative; left: -118px; height: 2vw">
+        <input class='input_register' style='height: 3vw' type="text" name="password" placeholder="Пароль" value="{{ password or '' }}">
+    </div>
+    <br>
+    <br>
+    <button class="button_register" type="submit">Зарегистрироваться</button>
+    <button type="button"><a href={{ (url_for('loginPage')) }}>Войти</a></button>
+    <br>
+    <br>
+    
+{% if not (username or password or name) and request.method == 'POST' %}
+<div>
+    <label>{{ errors[0] }}</label>
+</div>
+{% endif %}
+
+</form>
+<br>
+{% endblock %}
