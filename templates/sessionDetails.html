@@ -3,8 +3,7 @@
 {% block main %}
     <h1>Информация о сеансе</h1>
     <div class="movie">Фильм: {{ session_data.movie }}<br><br>
-    Начало: {{ session_data.start_time }}<br><br>
-    Зал: {{ session_data.room_number }}<br></div>
+    Начало: {{ session_data.start_time }}<br><br></div>
     <br>
     <br>
     <h2>Места</h2>
@@ -15,12 +14,16 @@
                     Место {{ seat[-2:] }}:
                     {% if status %}
                         Занято пользователем {{  occupants[loop.index0] }}
+                        <a href="{{ url_for('cancel_reservation', cinema_session_id=session_data.id, seat_number=seat[5:]) }}">Снять бронь</a>
                     {% else %}
                         <input type="checkbox" name="selected_seats" value="{{ seat }}"> Свободно
                     {% endif %}
                 </li>
             {% endfor %}
         </ul>
+        {% if errors != [] %}
+        <div>{{ errors }}</div>
+        {% endif %}
         <input type="submit" value="Зарезервировать выбранные места">
     </form>
     <br>

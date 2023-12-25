@@ -11,7 +11,6 @@ class users(db.Model):
 class cinema_sessions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     movie = db.Column(db.String(255), nullable=False)
-    room_number = db.Column(db.Integer, nullable=False)
     start_time = db.Column(db.TIMESTAMP, nullable=False)
     seat_1 = db.Column(db.Boolean, default=False)
     seat_2 = db.Column(db.Boolean, default=False)

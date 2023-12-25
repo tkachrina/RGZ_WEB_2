@@ -115,24 +115,27 @@ def createSession():
         if request.method == 'POST':
             movie = request.form.get('movie')
             start_time = request.form.get('date')
-            room_number = request.form.get('room_number')
 
             if start_time:
                 try:
                     # Преобразовываем строку в объект datetime
                     time = datetime.strptime(start_time, "%d-%m-%Y %H:%M")
+
+                    if time < datetime.now():
+                        errors.append('Выбранная дата сеанса уже прошла')
+                        return render_template('new_session.html', errors=errors)
                 except:
                     errors.append('Некорректный формат времени')
                     return render_template('new_session.html', errors=errors)
 
-                new_session = cinema_sessions(movie=movie, room_number=room_number, start_time=time)
+                new_session = cinema_sessions(movie=movie, start_time=time)
                 db.session.add(new_session)
                 db.session.commit()
 
-                session_id = new_session.session_id
+                session_id = new_session.id
 
                 flash('Сеанс успешно создан', 'success')
-                return redirect(url_for('allFilms'), cinema_session_id=session_id)
+                return redirect(url_for('allFilms'))
 
     return render_template('new_session.html', errors=errors)
 
@@ -186,15 +189,59 @@ def reserve_seats(cinema_session_id):
         flash('Сеанс с указанным ID не найден', 'error')
         return redirect(url_for('allFilms'))
 
+    # Проверяем, является ли пользователь администратором
+    is_admin = session.get('username') == 'admin'
+
+    # Проверяем, сколько мест уже занято пользователем на текущем сеансе
+    user_reserved_seats = sum(getattr(session_data, f'seat_{i}') for i in range(1, 31) if getattr(session_data, f'occupant_{i}') == session['name'])
+
     for selected_seat in selected_seats:
         seat_number = int(selected_seat.split('_')[-1])
         if getattr(session_data, selected_seat, False):
-            flash(f'Место {selected_seat} уже занято', 'error')
+            # Если пользователь - админ, то он может снимать бронь с любого места
+            if is_admin:
+                setattr(session_data, selected_seat, False)
+                setattr(session_data, f'occupant_{seat_number}', None)
+                db.session.commit()
+                flash(f'Бронь на место {selected_seat} успешно снята', 'success')
+            else:
+                flash(f'Место {selected_seat} уже занято', 'error')
         else:
-            setattr(session_data, selected_seat, True)
-            setattr(session_data, f'occupant_{seat_number}', session['name'])
-            db.session.commit()
-            flash(f'Место {selected_seat} успешно зарезервировано', 'success')
+            # Проверяем, не превышает ли количество забронированных мест лимит
+            if user_reserved_seats + len(selected_seats) <= 5:
+                setattr(session_data, selected_seat, True)
+                setattr(session_data, f'occupant_{seat_number}', session['name'])
+                db.session.commit()
+                flash(f'Место {selected_seat} успешно зарезервировано', 'success')
+            else:
+                flash('Вы не можете забронировать более 5 мест', 'error')
 
     return redirect(url_for('session_details', cinema_session_id=cinema_session_id))
 
+
+
+@app.route('/app/session/<int:cinema_session_id>/cancel_reservation/<int:seat_number>', methods=['POST', 'GET'])
+def cancel_reservation(cinema_session_id, seat_number):
+    if 'name' not in session:
+        flash('Необходимо войти в систему для отмены брони', 'error')
+        return redirect(url_for('loginPage'))
+
+    session_data = cinema_sessions.query.get(cinema_session_id)
+
+    if not session_data:
+        flash('Сеанс с указанным ID не найден', 'error')
+        return redirect(url_for('allFilms'))
+
+    seat_name = f'seat_{seat_number}'
+
+    if not getattr(session_data, seat_name, False):
+        flash(f'Место {seat_name} не забронировано', 'error')
+    elif getattr(session_data, f'occupant_{seat_number}') != session['name']:
+        flash(f'Вы не можете снять бронь с места {seat_name}, так как оно забронировано другим пользователем', 'error')
+    else:
+        setattr(session_data, seat_name, False)
+        setattr(session_data, f'occupant_{seat_number}', None)
+        db.session.commit()
+        flash(f'Бронь места {seat_name} успешно снята', 'success')
+
+    return redirect(url_for('session_details', cinema_session_id=cinema_session_id))

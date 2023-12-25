@@ -4,8 +4,12 @@
     <h1>Афиша</h1>
     {% for session in movie_sessions %}
         <div><a href="{{ url_for('movie_sessions', movie=session[0])}}">{{ session[0] }}</a></div><br>
-        <!-- Добавьте другие поля по необходимости -->
+        {% if session[0] == 'admin' %}
+        <form method="post" action="{{ url_for('delete_session', cinema_session_id=session[1].id) }}" style="display: inline;">
+            <button type="submit">Удалить</button>
+        </form>
+        {% endif %}
     {% endfor %}
 
-<!-- Вложенный цикл для информации о каждом фильме -->
+
 {% endblock %}
