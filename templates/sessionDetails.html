@@ -7,14 +7,14 @@
     <br>
     <br>
     <h2>Места</h2>
-    <form method="post" action="{{ url_for('reserve_seats', cinema_session_id=session_data.id) }}">
+    <form method="post" action="{{ url_for('reserve_seats', cinema_session_id=session_data.session_id) }}">
         <ul>
             {% for seat, status in seats %}
                 <li>
                     Место {{ seat[-2:] }}:
                     {% if status %}
                         Занято пользователем {{  occupants[loop.index0] }}
-                        <a href="{{ url_for('cancel_reservation', cinema_session_id=session_data.id, seat_number=seat[5:]) }}">Снять бронь</a>
+                        <a href="{{ url_for('cancel_reservation', cinema_session_id=session_data.session_id, seat_number=seat[5:]) }}">Снять бронь</a>
                     {% else %}
                         <input type="checkbox" name="selected_seats" value="{{ seat }}"> Свободно
                     {% endif %}

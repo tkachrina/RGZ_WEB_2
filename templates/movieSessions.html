@@ -5,7 +5,7 @@
   <ul>
     {% for session in sessions %}
     <div class="movie">
-        <a href="{{ url_for('session_details', cinema_session_id=session.id, movie=movie) }}">
+        <a href="{{ url_for('session_details', cinema_session_id=session.session_id, movie=movie) }}">
             Время: {{ session.start_time }}<br>
         </a>
     </div>

@@ -9,7 +9,7 @@ class users(db.Model):
 
 
 class cinema_sessions(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.Integer, primary_key=True)
     movie = db.Column(db.String(255), nullable=False)
     start_time = db.Column(db.TIMESTAMP, nullable=False)
     seat_1 = db.Column(db.Boolean, default=False)

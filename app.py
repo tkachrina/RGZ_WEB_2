@@ -30,9 +30,8 @@ def start():
     return redirect(url_for('main'))
 
 
-@app.route("/app/index", methods=['GET', 'POST'])
+@app.route("/app/index/", methods=['GET', 'POST'])
 def main():
-    db.create_all()
     if 'name' not in session:
         return redirect(url_for('registerPage'))
 
@@ -132,7 +131,7 @@ def createSession():
                 db.session.add(new_session)
                 db.session.commit()
 
-                session_id = new_session.id
+                session_id = new_session.session_id
 
                 flash('Сеанс успешно создан', 'success')
                 return redirect(url_for('allFilms'))

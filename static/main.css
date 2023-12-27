@@ -6,8 +6,8 @@ img {
 }
 
 body {
-    background-color: black;
-    color: white;
+    background-color: rgb(255, 255, 255);
+    color: rgb(5, 5, 5);
     font-size: 2vw;
 }
 
@@ -16,8 +16,8 @@ div {
 }
 
 header {
-    border-bottom: 5px white solid;
-    border-top: 5px white solid;
+    border-bottom: 5px rgb(0, 0, 0) solid;
+    border-top: 5px rgb(0, 0, 0) solid;
     margin: -8px;
     padding-left: 2%;
     margin-top: 27px;
@@ -38,8 +38,8 @@ ul {
 
 footer {
     text-align: right;
-    border-top: 5px white solid;
-    border-bottom: 5px white solid;
+    border-top: 5px rgb(22, 22, 22) solid;
+    border-bottom: 5px rgb(0, 0, 0) solid;
     margin: -8px;
     padding-right: 2%;
     position: relative;
